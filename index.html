@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>👩 NARI - Women Safety</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #e91e63;
+            --primary-dark: #c2185b;
+            --primary-light: #f8bbd0;
+            --accent: #9f46af;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #ffffff;
+            --bg-pink: #ffe6ef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* SIDEBAR STYLES */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+            color: var(--text-light);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 80px;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .sidebar .logo span {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0 15px;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 25px;
+            text-align: center;
+        }
+
+        /* PANIC BUTTON STYLES */
+        .panic-btn {
+            position: relative;
+        }
+
+        .panic-btn > a {
+            background-color: #f44336;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+            }
+        }
+
+        .subpanel {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: #f44336;
+            width: 200px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .panic-btn:hover .subpanel {
+            display: block;
+        }
+
+        .subpanel a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .subpanel a:last-child {
+            border-bottom: none;
+        }
+
+        .subpanel a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        /* MAIN CONTENT STYLES */
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            transition: all 0.3s ease;
+        }
+
+        /* HEADER AND NAVIGATION */
+        header {
+            background-color: var(--bg-light);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        header nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        header nav .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        header nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1660644807802-497b674c6ac2?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 80px 40px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            background-color: var(--bg-light);
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        /* SERVICES SECTION */
+        .services {
+            background-color: var(--bg-pink);
+        }
+
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service {
+            background-color: white;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service a {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* CONTACT DETAILS */
+        .contact-details {
+            background-color: var(--bg-pink);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.1);
+        }
+
+        .contact-details h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .contact-details p {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .contact-details ul {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-details ul li {
+            padding: 15px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-details ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-details a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+
+        .contact-details i {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* CONTACT FORM */
+        .contact, .extra-contact {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 40px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact h2, .extra-contact h3 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contact form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .contact input,
+        .contact textarea,
+        .extra-contact input[type="text"],
+        .extra-contact input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact input:focus,
+        .contact textarea:focus,
+        .extra-contact input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+        }
+
+        .contact button,
+        .extra-contact button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .contact button:hover,
+        .extra-contact button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* ISSUES SECTION */
+        .issues-section {
+            padding: 60px 40px;
+            background-color: #f9f9f9;
+        }
+
+        .issues-section h2 {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .issue-btns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .issue-btn {
+            padding: 15px 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .issue-btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(159, 70, 175, 0.3);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: left;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-light);
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-light);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media screen and (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 60px 30px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .toggle-btn {
+                display: block;
+            }
+
+            header nav {
+                padding: 15px;
+            }
+
+            header nav ul {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                background-color: white;
+                width: 280px;
+                height: calc(100vh - 70px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                transition: all 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 99;
+            }
+
+            header nav ul.active {
+                right: 0;
+            }
+
+            .contact-details ul {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .service-list {
+                gap: 20px;
+            }
+
+            .contact, .extra-contact {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="logo2.png" alt="Nari Logo" />
+            <span>NARI</span>
+        </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+
+            <li><a href="self-defence.html"><i class="fas fa-folder-open"></i> Resources</a></li>
+            <li><a href="queenbot.html"><i class="fas fa-user-friends"></i> QueenBot</a></li>
+            <!-- Panic Button -->
+            <li class="panic-btn">
+                <a href="javascript:void(0);" id="panicButton"><i class="fas fa-exclamation-triangle"></i> Panic</a>
+                <div class="subpanel">
+                    <a href="#" id="emergencyContact"><i class="fas fa-phone-alt"></i> Emergency Contact</a>
+                    <a href="#" id="shareLocation"><i class="fas fa-map-marker-alt"></i> Share Location</a>
+                    <a href="#" id="alarmAlert"><i class="fas fa-bell"></i> Alarm Alert</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="logo2.png" alt="Nari Logo" /> NARI
+                </div>
+                <button class="toggle-btn" id="toggleBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="navMenu">
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#services"><i class="fas fa-cogs"></i> Services</a></li>
+                    <li><a href="#contact"><i class="fas fa-phone"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Your Safety, Our Priority</h1>
+                <p>Real-time help and support for women's safety in every situation.</p>
+                <a href="#" class="btn" id="helpNowBtn"><i class="fas fa-shield-alt"></i> Get Help Now</a>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <h2>About Us</h2>
+            <p>Nari is more than just an app — it is a lifeline for women in distress. We provide a holistic approach to safety that empowers every woman to feel secure and supported.</p>
+            <p>Thoughts like "WHY ME?" haunts a woman for life and we are here to provide relief and safeguard the lady when she is in danger. Our mission is to create a world where women can move freely without fear.</p>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service-list">
+                <div class="service" id="emergencyService">
+                    <i class="fas fa-exclamation-circle fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Emergency Alert</h3>
+                    <p style="font-size: 0.9rem; color: #666;">One-tap SOS alerts to trusted contacts with your location.</p>
+                </div>
+                <div class="service" id="locationService">
+                    <i class="fas fa-map-marker-alt fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Location Sharing</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Share your real-time location with family and friends.</p>
+                </div>
+                <div class="service" id="quickDialService">
+                    <i class="fas fa-phone-alt fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Quick Dial</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Instant access to emergency services and trusted contacts.</p>
+                </div>
+                <div class="service" id="chatbotService">
+                    <i class="fas fa-robot fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Personalized Chatbot</h3>
+                    <p style="font-size: 0.9rem; color: #666;">24/7 AI assistant to provide guidance in crisis situations.</p>
+                </div>
+                <div class="service" id="fakeCallService">
+                    <i class="fas fa-phone-volume fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Fake Call Trigger</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Simulate incoming calls to help escape uncomfortable situations.</p>
+                </div>
+                <div class="service">
+                    <i class="fas fa-fist-raised fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Self-defense Training</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Learn essential techniques to protect yourself.</p>
+                    <a href="self-defence.html" style="color: var(--primary); display: inline-block; margin-top: 10px;">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service" id="communityService">
+                    <i class="fas fa-users fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Community Support</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Connect with a supportive network of women.</p>
+                </div>
+                <div class="service" id="safetyTipsService">
+                    <i class="fas fa-book fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px;">Safety Tips</h3>
+                    <p style="font-size: 0.9rem; color: #666;">Access a comprehensive guide on personal safety strategies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Details -->
+        <section id="contact-details" class="contact-details">
+            <h2>Contact Details</h2>
+            <p>If you need immediate assistance or have any inquiries, feel free to reach out through the following platforms:</p>
+            <ul>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <strong>Email:</strong><br>
+                        <a href="mailto:support@nari.com">support@nari.com</a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <strong>Phone:</strong><br>
+                        <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <strong>WhatsApp:</strong><br>
+                        <a href="https://wa.me/1234567890">Chat with us</a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fab fa-linkedin"></i>
+                    <div>
+                        <strong>LinkedIn:</strong><br>
+                        <a href="https://www.linkedin.com/in/yourprofile">Nari LinkedIn</a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fab fa-twitter"></i>
+                    <div>
+                        <strong>Twitter:</strong><br>
+                        <a href="https://twitter.com/nariapp">Follow us on Twitter</a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fab fa-instagram"></i>
+                    <div>
+                        <strong>Instagram:</strong><br>
+                        <a href="https://www.instagram.com/nariapp">Follow us on Instagram</a>
+                    </div>
+                </li>

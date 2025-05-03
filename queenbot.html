@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueenBot Chat</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fff0f5;
+      padding: 20px;
+    }
+    .chat-container {
+      max-width: 500px;
+      margin: auto;
+      border: 2px solid pink;
+      border-radius: 20px;
+      padding: 20px;
+      background: white;
+    }
+    #chatBox {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #f8bbd0;
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    .bubble {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+    .user {
+      background: #f06292;
+      color: white;
+      text-align: right;
+      margin-left: auto;
+    }
+    .bot {
+      background: #f8bbd0;
+      color: black;
+      margin-right: auto;
+    }
+    input, button {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid pink;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <h2>💬 QueenBot</h2>
+    <div id="chatBox">
+      <div class="bubble bot">Hi Queen 👑! I’m here for you. What’s on your mind today?</div>
+    </div>
+    <input type="text" id="chatInput" placeholder="Type something..." onkeydown="if(event.key==='Enter') sendMsg()" />
+    <button onclick="sendMsg()">Send</button>
+  </div>
+
+  <script>
+    let conversationMode = null;
+    let convoStep = 0;
+
+    const replies = {
+      period: "Hey Queen 👑, periods can be tough, but you’re tougher. Try some rest, warm water, or a heating pad. You're doing amazing!",
+      pcos: "PCOS can feel overwhelming, but you're not alone. Managing your diet, stress, and regular checkups can help. You’re a warrior! 💪",
+      convo: [
+        "I'm really sorry that happened to you. 💔 Can you tell me what exactly happened?",
+        "When did this incident take place?",
+        "How did it make you feel?",
+        "Did you try to share it with anyone?",
+        "Were your parents or guardians supportive?",
+        "Thank you for sharing this, Queen. You are so strong. 💖 I'm always here to listen. Please don’t hesitate to reach out for real-life help too. You're not alone. 🌸"
+      ],
+      default: "You're a Queen, and whatever you're facing, we'll get through it together. Talk to me 💖."
+    };
+
+    function getReply(msg) {
+      const lower = msg.toLowerCase();
+
+      // Start sensitive convo mode
+      if (!conversationMode && (lower.includes("harass") || lower.includes("uncomfortable") || lower.includes("abuse"))) {
+        conversationMode = "sensitive";
+        convoStep = 0;
+        return replies.convo[convoStep++];
+      }
+
+      // Continue sensitive convo
+      if (conversationMode === "sensitive") {
+        if (convoStep < replies.convo.length) {
+          return replies.convo[convoStep++];
+        } else {
+          conversationMode = null; // reset
+          return replies.default;
+        }
+      }
+
+      // Direct keyword replies
+      if (lower.includes("period")) return replies.period;
+      if (lower.includes("pcos") || lower.includes("pcod")) return replies.pcos;
+
+      return replies.default;
+    }
+
+    function sendMsg() {
+      const input = document.getElementById("chatInput");
+      const chatBox = document.getElementById("chatBox");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const userMsg = `<div class='bubble user'>${msg}</div>`;
+      const botReply = getReply(msg);
+      const botMsg = `<div class='bubble bot'>${botReply}</div>`;
+
+      chatBox.innerHTML += userMsg + botMsg;
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>

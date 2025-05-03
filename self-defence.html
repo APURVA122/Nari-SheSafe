@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Self-Defense Training - NARI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+        --primary: #e91e63;
+        --primary-dark: #c2185b;
+        --primary-light: #f8bbd0;
+        --accent: #9f46af;
+        --text-dark: #333;
+        --text-light: #fff;
+        --bg-light: #ffffff;
+        --bg-pink: #ffe6ef;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        color: var(--text-dark);
+    }
+
+    /* Header */
+    header {
+        background: linear-gradient(to right, var(--primary), var(--primary-dark));
+        color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    header h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+
+    header p {
+        margin-top: 8px;
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background-color: white;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 80px;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-header {
+        padding: 0 20px 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-header img {
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    .sidebar-header h2 {
+        color: var(--primary);
+        font-size: 1.5rem;
+    }
+
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: var(--text-dark);
+        font-size: 16px;
+        border-left: 4px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar a i {
+        margin-right: 15px;
+        color: var(--primary);
+        width: 20px;
+        text-align: center;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+        background-color: var(--bg-pink);
+        border-left-color: var(--primary);
+        color: var(--primary);
+    }
+
+    /* Main Content */
+    .main-content {
+        margin-left: 250px;
+        padding: 30px;
+        transition: all 0.3s ease;
+    }
+
+    /* Back Button */
+    .back-btn {
+        background-color: var(--primary);
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 16px;
+        margin-bottom: 30px;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+    }
+
+    .back-btn i {
+        margin-right: 8px;
+    }
+
+    .back-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(233, 30, 99, 0.4);
+    }
+
+    /* Page Title */
+    .page-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .page-title h2 {
+        font-size: 2.2rem;
+        color: var(--primary-dark);
+        margin-bottom: 15px;
+    }
+
+    .page-title p {
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    /* Videos */
+    .video-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+
+    .video-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    .video-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-thumbnail {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .video-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .video-card:hover .video-thumbnail img {
+        transform: scale(1.05);
+    }
+
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background-color: rgba(233, 30, 99, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .play-button:hover {
+        background-color: var(--primary);
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-info {
+        padding: 20px;
+    }
+
+    .video-info h3 {
+        margin-bottom: 10px;
+        color: var(--text-dark);
+        font-size: 1.2rem;
+    }
+
+    .video-info p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .video-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .tag {
+        background-color: var(--bg-pink);
+        color: var(--primary);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .video-iframe {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: none;
+        border-radius: 0 0 12px 12px;
+    }
+
+    /* Resources Section */
+    .resources-section {
+        background-color: var(--bg-pink);
+        padding: 40px;
+        border-radius: 12px;
+        margin-bottom: 50px;
+    }
+
+    .resources-section h3 {
+        color: var(--primary-dark);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .resources-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .resource-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        width: 300px;
+        transition: all 0.3s ease;
+    }
+
+    .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .resource-card i {
+        color: var(--primary);
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .resource-card h4 {
+        margin-bottom: 10px;
+        color: var(--text-dark);
+    }
+
+    .resource-card p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .resource-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .resource-link i {
+        font-size: 0.9rem;
+        margin-left: 5px;
+        margin-bottom: 0;
+    }
+
+    .resource-link:hover {
+        color: var(--accent);
+    }
+
+    /* Classes Section */
+    .classes-section {
+        margin-bottom: 50px;
+    }
+
+    .classes-section h3 {
+        text-align: center;
+        color: var(--primary-dark);
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+    }
+
+    .class-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
+
+    .class-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .class-image {
+        height: 180px;
+        overflow: hidden;
+    }
+
+    .class-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .class-card:hover .class-image img {
+        transform: scale(1.1);
+    }
+
+    .class-info {
+        padding: 20px;
+    }
+
+    .class-info h4 {
+        color: var(--text-dark);
+        margin-bottom: 10px;
+    }
+
+    .class-details {
+        margin-bottom: 15px;
+    }
+
+    .class-details p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .class-details p i {
+        color: var(--primary);
+        margin-right: 8px;
+        width: 16px;
+    }
+
+    .enroll-btn {
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        display: inline-block;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .enroll-btn:hover {
+        background-color: var(--primary-dark);
+    }
+
+    /* Contact Section */
+    .contact-section {
+        background-color: var(--bg-pink);
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .contact-section h3 {
+        color: var(--primary-dark);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+    }
+
+    .contact-section p {
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto 30px;
+    }
+
+    .contact-methods {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .contact-method {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-icon i {
+        color: var(--primary);
+        font-size: 24px;
+    }
+
+    .contact-method p {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .contact-method a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .contact-method a:hover {
+        color: var(--accent);
+    }
+
+    .contact-form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+    }
+
+    .submit-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+        background-color: var(--primary-dark);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 50px;
+    }
+
+    footer p {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+        .video-container {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 70px;
+            padding-top: 60px;
+        }
+
+        .sidebar a span {
+            display: none;
+        }
+
+        .sidebar a {
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .sidebar a i {
+            margin-right: 0;
+            font-size: 20px;
+        }
+
+        .sidebar-header {
+            padding: 0 5px 15px;
+        }
+
+        .sidebar-header img {
+            height: 40px;
+        }
+
+        .sidebar-header h2 {
+            display: none;
+        }
+
+        .main-content {
+            margin-left: 70px;
+            padding: 20px;
+        }
+
+        .page-title h2 {
+            font-size: 1.8rem;
+        }
+
+        .resources-section,
+        .contact-section {
+            padding: 30px 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .video-container {
+            grid-template-columns: 1fr;
+        }
+
+        .class-container {
+            grid-template-columns: 1fr;
+        }
+
+        .resources-list {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-methods {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page-title h2 {
+            font-size: 1.5rem;
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .toggle-sidebar {
+            display: block;
+            position: fixed;
+            left: 15px;
+            top: 15px;
+            z-index: 101;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="logo2.png" alt="NARI Logo">
+      <h2>NARI</h2>
+    </div>
+    <a href="index.html"><i class="fas fa-home"></i> <span>Home</span></a>
+    <a href="#"><i class="fas fa-shield-alt"></i> <span>Emergency</span></a>
+    <a href="self-defence.html" class="active"><i class="fas fa-fist-raised"></i> <span>Self-Defense</span></a>
+    <a href="#"><i class="fas fa-map-marker-alt"></i> <span>Safe Locations</span></a>
+    <a href="#"><i class="fas fa-user-friends"></i> <span>Community</span></a>
+    <a href="#"><i class="fas fa-book"></i> <span>Resources</span></a>
+    <a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a>
+  </div>
+
+  <div class="main-content">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+    <div class="page-title">
+      <h2>Self-Defense Training for Women</h2>
+      <p>Learn essential techniques to protect yourself in threatening situations. Our comprehensive guides and training resources will help you build confidence and develop skills for personal safety.</p>
+    </div>
+
+    <section class="video-container">
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image6.jpg" alt="Basic Self-Defense Techniques">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Basic Self-Defense Techniques</h3>
+          <p>Learn fundamental moves that can help you escape dangerous situations. This video covers core techniques that every woman should know.</p>
+          <div class="video-tags">
+            <span class="tag">Beginner</span>
+            <span class="tag">Essential</span>
+            <span class="tag">10 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image1.jpeg.jpg" alt="Escape from Wrist Grabs">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Escape from Wrist Grabs</h3>
+          <p>Simple but effective techniques to break free when someone grabs your wrist or arm. These moves require minimal strength.</p>
+          <div class="video-tags">
+            <span class="tag">Beginner</span>
+            <span class="tag">Practical</span>
+            <span class="tag">8 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image2.jpeg.jpg" alt="Defensive Stance and Movement">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Defensive Stance and Movement</h3>
+          <p>Learn how to position your body to maintain balance and create distance from threats. Proper stance is the foundation of self-defense.</p>
+          <div class="video-tags">
+            <span class="tag">Beginner</span>
+            <span class="tag">Foundation</span>
+            <span class="tag">7 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image3.jpeg.jpg" alt="Target Areas for Self-Defense">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Target Areas for Self-Defense</h3>
+          <p>Understand the vulnerable points on an attacker's body that can help you escape. Knowledge of these areas can be crucial in dangerous situations.</p>
+          <div class="video-tags">
+            <span class="tag">Intermediate</span>
+            <span class="tag">Practical</span>
+            <span class="tag">12 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image4.jpeg.jpg" alt="Using Everyday Objects for Protection">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Using Everyday Objects for Protection</h3>
+          <p>Discover how common items in your purse or surroundings can be used defensively in emergency situations.</p>
+          <div class="video-tags">
+            <span class="tag">Intermediate</span>
+            <span class="tag">Practical</span>
+            <span class="tag">15 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-thumbnail">
+          <img src="image5.jpeg.jpg" alt="Advanced Self-Defense Techniques">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-info">
+          <h3>Advanced Self-Defense Techniques</h3>
+          <p>For those who have mastered the basics, these advanced techniques can provide additional options in threatening situations.</p>
+          <div class="video-tags">
+            <span class="tag">Advanced</span>
+            <span class="tag">Technical</span>
+            <span class="tag">20 min</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-section">
+      <h3>Additional Resources</h3>
+      <div class="resources-list">
+        <div class="resource-card">
+          <i class="fas fa-book"></i>
+          <h4>Self-Defense Handbook</h4>
+          <p>A comprehensive guide covering all aspects of personal safety and self-defense techniques for women.</p>
+          <a href="self defence.pdf" class="resource-link">Download PDF <i class="fas fa-download"></i></a>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Find Local Classes</h4>
+          <p>Locate self-defense classes and workshops in your area to practice techniques with trained instructors.</p>
+          <a href="https://www.superprof.co.in/lessons/self-defense/india/" class="resource-link">Search Locations <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h4>Safety Apps Guide</h4>
+          <p>Curated list of recommended mobile applications that can enhance your personal safety and provide quick access to help.</p>
+          <a href="https://safetyculture.com/app/safety/">View Guide <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="resource-card">
+          <i class="fas fa-comments"></i>
+          <h4>Community Forum</h4>
+          <p>Join discussions with other women about safety strategies, share experiences, and get advice from experts.</p>
+          <a href="#" class="resource-link">Join Forum <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="classes-section">
+      <h3>Upcoming Self-Defense Classes</h3>
+      <div class="class-container">
+        <div class="class-card">
+          <div class="class-image">
+            <img src="image.png" alt="Beginner Self-Defense Workshop">
+          </div>
+          <div class="class-info">
+            <h4>Beginner Self-Defense Workshop</h4>
+            <div class="class-details">
+              <p><i class="fas fa-calendar"></i> May 15, 2025</p>
+              <p><i class="fas fa-clock"></i> 10:00 AM - 12:00 PM</p>
+              <p><i class="fas fa-map-marker-alt"></i> Community Center, Downtown</p>
+              <p><i class="fas fa-user"></i> Instructor: Sarah Johnson</p>
+            </div>
+            <a href="#" class="enroll-btn">Enroll Now</a>
+          </div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-image">
+            <img src="image copy.png" alt="Krav Maga for Women">
+          </div>
+          <div class="class-info">
+            <h4>Krav Maga for Women</h4>
+            <div class="class-details">
+              <p><i class="fas fa-calendar"></i> May 22, 2025</p>
+              <p><i class="fas fa-clock"></i> 6:00 PM - 8:00 PM</p>
+              <p><i class="fas fa-map-marker-alt"></i> Fitness Center, East Side</p>
+              <p><i class="fas fa-user"></i> Instructor: Michael Chen</p>
+            </div>
+            <a href="#" class="enroll-btn">Enroll Now</a>
+          </div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-image">
+            <img src="image copy 2.png" alt="Self-Defense in Public Spaces">
+          </div>
+          <div class="class-info">
+            <h4>Self-Defense in Public Spaces</h4>
+            <div class="class-details">
+              <p><i class="fas fa-calendar"></i> June 5, 2025</p>
+              <p><i class="fas fa-clock"></i> 2:00 PM - 4:00 PM</p>
+              <p><i class="fas fa-map-marker-alt"></i> Women's Center, North Campus</p>
+              <p><i class="fas fa-user"></i> Instructor: Amina Patel</p>
+            </div>
+            <a href="#" class="enroll-btn">Enroll Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <h3>Contact Us</h3>
+      <p>Have questions about our self-defense training or need personalized guidance? Get in touch with our team of experts.</p>
+      
+      <div class="contact-methods">
+        <div class="contact-method">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <p>Email</p>
+          <a href="mailto:selfdefense@nari.com">selfdefense@nari.com</a>
+        </div>
+        
+        <div class="contact-method">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <p>Phone</p>
+          <a href="tel:+1234567890">+1 (234) 567-890</a>
+        </div>
+        
+        <div class="contact-method">
+          <div class="contact-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <p>WhatsApp</p>
+          <a href="https://wa.me/1234567890">Message Us</a>
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name">
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your email">
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Your message or question"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Send Message</button>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>©© 2025 NARI. All content, designs, and materials are the exclusive property of Nari and are protected by copyright laws. Unauthorized use, reproduction
